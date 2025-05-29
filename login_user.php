@@ -351,7 +351,7 @@
             <ul class="navbar-nav">
                 <li>
                     <a class="back-button" href="index.php">
-                        <i class="fas fa-arrow-left"></i> Kembali
+                        <i class="fas fa-arrow-left"></i> Back
                     </a>
                 </li>
             </ul>
@@ -361,7 +361,6 @@
     <div class="login-container">
         <div class="login-header">
             <div class="system-name">SAKA</div>
-            <h1>Sistem Aduan Kerosakan Asset</h1>
             <p>Sila log masuk untuk melaporkan kerosakan</p>
         </div>
 
@@ -382,7 +381,7 @@
                 </div>
                 <button type="submit" name="loginuser" class="btn btn-primary">Log Masuk</button>
                 <div class="link-group">
-                    <a href="signup.php" class="create-account">Daftar Akaun</a>
+                    <a href="signup.php" class="create-account">Daftar Pengguna</a>
                     <a href="forg_pass.php" class="forgot-password">Lupa Kata Laluan?</a>
                 </div>
             </form>
