@@ -424,11 +424,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <div class="ms-auto nav-container d-flex align-items-center">
           <a class="btn home-btn me-3" href="https://www.ilpkls.gov.my">
-            <i class="fas fa-home me-1"></i> Laman Utama
+            <i class="fas fa-home me-1"></i> Laman Utama ILPKLS
           </a>
           <div class="social-links">
             <a class="btn" href="https://www.facebook.com/ILPKUALALANGAT/"><i class="fa-brands fa-facebook-f"></i></a>
-            <a class="btn" href="https://www.instagram.com/ilpkualalangat_official/?hl=en"><i class="fa-brands fa-instagram"></i></a>
             <a class="btn" href="https://www.youtube.com/@ILPKUALALANGAT"><i class="fa-brands fa-youtube"></i></a>
             <a class="btn" href="https://www.tiktok.com/@ilpkualalangat_official"><i class="fab fa-tiktok"></i></a>
           </div>
@@ -440,7 +439,7 @@
   <!-- Banner -->
   <div class="banner">
     <div class="banner-text">
-      <h1>Sistem <span class="highlight">Aduan Kerosakan</span> Aset</h1>
+      <h1>Sistem <span class="highlight">Aduan Asset Kerosakan</h1>
       <p>Sistem ini adalah satu alternatif bagi memudahkan pelajar, pensyarah dan kakitangan ILPKLS membuat aduan kerosakan secara atas talian dengan cepat dan efisien</p>
     </div>
   </div>
@@ -452,13 +451,13 @@
       <a href="signup.php" class="text-decoration-none">
         <div class="box">
           <img src="img/register_6851123.png" alt="Register">
-          <h3>DAFTAR AKAUN</h3>
+          <h3>DAFTAR PENGGUNA</h3>
         </div>
       </a>
       <a href="login_user.php" class="text-decoration-none">
         <div class="box">
           <img src="img/login.png" alt="User">
-          <h3>LOG MASUK</h3>
+          <h3>LOG MASUK PENGUNNA</h3>
         </div> 
       </a>
     </div>
