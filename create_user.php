@@ -455,7 +455,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_submit'])) {
                             <select name="role" id="role" required>
                                 <option value="" selected disabled>--Pilih Peranan--</option>
                                 <option value="Pelajar">Pelajar</option>
-                                <option value="Pengajar">Pengajar</option>
+                                <option value="Pengajar">Pengajar</option>\
+                                <option value="TPO">TPO</option>
                             </select>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-<?php session_start();
+<?php 
 include('db.php');
 $sql = "SELECT * FROM tbl_daftar WHERE `ic`='".$_SESSION['ic']."'";
 $akaun = mysqli_query($conn, $sql);
@@ -10,8 +10,6 @@ $totalRows_akaun = mysqli_num_rows($akaun);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <title>SISTEM ADUAN KEROSAKAN ASET</title>
     <style>
         :root {
@@ -28,12 +26,15 @@ $totalRows_akaun = mysqli_num_rows($akaun);
         }
         
         body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
             background-color: var(--secondary-light);
             color: var(--text-dark);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .container {
+            max-width: 900px;
+            margin: 40px auto;
             background-color: var(--white);
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
@@ -47,6 +48,7 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             border-bottom: 3px solid var(--accent);
             padding-bottom: 10px;
             display: inline-block;
+            margin: 0;
         }
         
         .section-title {
@@ -64,67 +66,65 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             border-left: 4px solid var(--primary);
         }
         
-        .form-control {
+        input[type="text"],
+        input[type="date"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
             border: 1px solid #D1D5DB;
             border-radius: 6px;
             padding: 12px 15px;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
         
-        .form-control:focus {
+        input:focus,
+        select:focus,
+        textarea:focus {
             border-color: var(--primary);
+            outline: none;
             box-shadow: 0 0 0 3px rgba(51, 102, 204, 0.25);
         }
         
-        .form-select {
-            border: 1px solid #D1D5DB;
+        button {
+            padding: 10px 25px;
+            font-weight: 600;
             border-radius: 6px;
-            padding: 12px 15px;
-            transition: all 0.3s ease;
-            background-position: right 15px center;
-        }
-        
-        .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(51, 102, 204, 0.25);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: 0.3s ease;
         }
         
         .btn-primary {
             background-color: var(--primary);
-            border-color: var(--primary);
-            padding: 10px 25px;
-            font-weight: 600;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            color: var(--white);
         }
         
-        .btn-primary:hover, .btn-primary:focus {
+        .btn-primary:hover {
             background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(30, 58, 138, 0.15);
         }
         
         .btn-danger {
             background-color: var(--danger);
-            border-color: var(--danger);
-            padding: 10px 25px;
-            font-weight: 600;
-            border-radius: 6px;
+            color: var(--white);
         }
         
-        .btn-danger:hover, .btn-danger:focus {
+        .btn-danger:hover {
             background-color: #e74c3c;
-            border-color: #e74c3c;
         }
         
         .back-button {
             color: var(--primary);
             font-weight: 600;
             text-decoration: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            transition: all 0.3s ease;
+            gap: 8px;
+            margin-right: auto;
         }
         
         .back-button:hover {
@@ -132,35 +132,17 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             transform: translateX(-3px);
         }
         
-        .back-button i {
-            margin-right: 5px;
-        }
-        
         .form-label {
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 8px;
+            display: block;
         }
         
         .form-text {
             color: var(--text-light);
             font-size: 0.875rem;
-        }
-        
-        .icon-input {
-            position: relative;
-        }
-        
-        .icon-input i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-        
-        .icon-input .form-control {
-            padding-left: 45px;
+            margin-top: 5px;
         }
         
         .required-asterisk {
@@ -171,6 +153,8 @@ $totalRows_akaun = mysqli_num_rows($akaun);
         .action-buttons {
             display: flex;
             gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 15px;
         }
         
         .header-card {
@@ -182,6 +166,7 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .header-card h2 {
@@ -217,6 +202,21 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             opacity: 0.9;
         }
         
+        /* Layout utilities (pengganti d-flex & justify-content-between) */
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+        
+        .space-between {
+            justify-content: space-between;
+        }
+        
+        /* Spacing custom */
+        .spacing-bottom {
+            margin-bottom: 1.5rem;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px 15px;
@@ -244,19 +244,17 @@ $totalRows_akaun = mysqli_num_rows($akaun);
     </style>
 </head>
 <body>
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="user.php" class="back-button">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
-            <div class="d-flex align-items-center">
-                <img src="img/logo.png" alt="Logo" height="40" class="me-2">
-                <h1 class="mb-0">SISTEM ADUAN KEROSAKAN ASET</h1>
+    <div style="margin-top: -8vh; overflow-y: hidden;">
+    <div class="container">
+        <div class="" style="text-align: center;">
+            <div class="flex">
+                <img src="img/logo.png" alt="Logo" height="80px" width="80px" style="margin-right:10px;">
+                <h1>SISTEM ADUAN KEROSAKAN ASET</h1>
             </div>
         </div>
         
         <div class="header-card">
-            <h2><i class="fas fa-clipboard-list me-2"></i> Borang Aduan Kerosakan</h2>
+            <h2>📋 Borang Aduan Kerosakan</h2>
             <div class="user-info">
                 <div class="user-avatar">
                     <?php echo substr($row_akaun['nama'], 0, 1); ?>
@@ -268,12 +266,12 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             </div>
         </div>
 
-        <form action="aduan_proses.php" method="POST">
+        <form action="aduan_proses.php" method="POST" enctype="multipart/form-data">
             <div class="form-section">
-                <div class="section-title"><i class="fas fa-tags me-2"></i>Maklumat Kategori</div>
-                <div class="mb-4">
+                <div class="section-title">🏷️ Maklumat Kategori</div>
+                <div class="spacing-bottom">
                     <label for="role" class="form-label">Kategori Kerosakan<span class="required-asterisk">*</span></label>
-                    <select name="role" id="role" class="form-select" required>
+                    <select name="role" id="role" required>
                         <option value="" selected disabled>-- Pilih Kategori --</option>
                         <option value="Bangunan/Sivil">Bangunan/Sivil (Encik Kamal)</option>
                         <option value="Mekanikal/Elektrikal/Aircond">Mekanikal/Elektrikal/Aircond (Encik Hairul)</option>
@@ -284,84 +282,70 @@ $totalRows_akaun = mysqli_num_rows($akaun);
             </div>
 
             <div class="form-section">
-                <div class="section-title"><i class="fas fa-laptop me-2"></i>Maklumat Aset</div>
-                <div class="mb-4">
+                <div class="section-title">💻 Maklumat Aset</div>
+                <div class="spacing-bottom">
                     <label for="jenis_aset" class="form-label">Jenis Aset<span class="required-asterisk">*</span></label>
-                    <div class="icon-input">
-                        <i class="fas fa-box"></i>
-                        <input type="text" class="form-control" id="jenis_aset" name="jenis_aset" placeholder="Contoh: Komputer, Projektor, Meja, Kerusi" required>
-                    </div>
+                    <input type="text" id="jenis_aset" name="jenis_aset" placeholder="Contoh: Komputer, Projektor, Meja, Kerusi" required>
                 </div>
                 
-                <div class="mb-4">
-                    <label for="nomborsiri" class="form-label">Nombor Siri Pendaftaran Aset<span class="required-asterisk">*</span></label>
-                    <div class="icon-input">
-                        <i class="fas fa-barcode"></i>
-                        <input type="text" class="form-control" id="nomborsiri" name="nomborsiri" placeholder="Contoh: AS-2023-1234" required>
-                    </div>
+                <div class="spacing-bottom">
+                    <label for="no_siri" class="form-label">Nombor Siri Pendaftaran Aset<span class="required-asterisk">*</span></label>
+                    <input type="text" id="no_siri" name="no_siri" placeholder="Contoh: AS-2023-1234" required>
                     <div class="form-text">Nombor siri yang terdapat pada aset</div>
                 </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title"><i class="fas fa-map-marker-alt me-2"></i>Lokasi & Kerosakan</div>
-                <div class="mb-4">
-                    <label for="tempat" class="form-label">Lokasi Kerosakan<span class="required-asterisk">*</span></label>
-                    <div class="icon-input">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" class="form-control" id="tempat" name="tempat" placeholder="Contoh: Blok A, Bilik A-101" required>
-                    </div>
+                <div class="section-title">📍 Lokasi & Kerosakan</div>
+                <div class="spacing-bottom">
+                    <label for="tempat_rosak" class="form-label">Lokasi Kerosakan<span class="required-asterisk">*</span></label>
+                    <input type="text" id="tempat_rosak" name="tempat_rosak" placeholder="Contoh: Blok A, Bilik A-101" required>
                 </div>
                 
-                <div class="mb-4">
-                    <label for="kerosakan" class="form-label">Pengguna Terakhir<span class="required-asterisk">*</span></label>
-                    <div class="icon-input">
-                        <i class="fas fa-user"></i>
-                        <input type="text" class="form-control" id="kerosakan" name="kerosakan" placeholder="Contoh: Ali bin Abu" required>
-                    </div>
+                <div class="spacing-bottom">
+                    <label for="userterakhir" class="form-label">Pengguna Terakhir<span class="required-asterisk">*</span></label>
+                    <input type="text" id="userterakhir" name="userterakhir" placeholder="Contoh: Ali bin Abu" required>
                 </div>
                 
-                <div class="mb-4">
-                    <label for="text" class="form-label">Perihal Kerosakan<span class="required-asterisk">*</span></label>
-                    <textarea class="form-control" id="text" name="text" rows="4" placeholder="Sila berikan maklumat terperinci tentang kerosakan yang berlaku" required></textarea>
+                <div class="spacing-bottom">
+                    <label for="ulasan" class="form-label">Perihal Kerosakan<span class="required-asterisk">*</span></label>
+                    <textarea id="ulasan" name="ulasan" rows="4" placeholder="Sila berikan maklumat terperinci tentang kerosakan yang berlaku" required></textarea>
                     <div class="form-text">Huraikan dengan jelas masalah yang dihadapi</div>
                 </div>
+
+                <div class="spacing-bottom">
+                    <label for="image" class="form-label">Bukti Gambar<span class="required-asterisk">*</span></label>
+                    <input type="file" name="image" accept="image/*" required id="image"> 
+                    <div class="form-text">Format yang disokong: JPEG, PNG, GIF</div>
+                </div>
                 
-                <div class="mb-4">
-                    <label for="Tarikh_kerosakan" class="form-label">Tarikh Kerosakan<span class="required-asterisk">*</span></label>
-                    <div class="icon-input">
-                        <i class="fas fa-calendar"></i>
-                        <input type="date" class="form-control" id="Tarikh_kerosakan" name="Tarikh kerosakan" required>
-                    </div>
+                <div class="spacing-bottom">
+                    <label for="tarikh_rosak" class="form-label">Tarikh Kerosakan<span class="required-asterisk">*</span></label>
+                    <input type="date" id="tarikh_rosak" name="tarikh_rosak" required>
                 </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title"><i class="fas fa-user me-2"></i>Maklumat Pengadu</div>
-                <div class="mb-4">
-                    <label for="Nama_dan_Jawatan" class="form-label">Nama dan Jawatan</label>
-                    <input type="hidden" name="Nama dan Jawatan" value="<?php echo $row_akaun['nama'] ?>" required>
-                    <input type="text" class="form-control" id="Nama_dan_Jawatan" name="Nama dan Jawatanxxx" value="<?php echo $row_akaun['nama'] ?>" disabled>
+                <div class="section-title">👤 Maklumat Pengadu</div>
+                <div class="spacing-bottom">
+                    <label for="nama" class="form-label">Nama dan Jawatan</label>
+                    <input type="hidden" name="nama" value="<?php echo $row_akaun['nama'] ?>" required>
+                    <input type="text" id="namaxx" name="namaxx" value="<?php echo $row_akaun['nama'] ?>" disabled>
                 </div>
                 
-                <div class="mb-4">
+                <div class="spacing-bottom">
                     <label for="emel" class="form-label">Alamat Emel</label>
                     <input type="hidden" name="emel" value="<?php echo $row_akaun['emel'] ?>" required>
-                    <input type="text" class="form-control" id="emel" name="emelxx" value="<?php echo $row_akaun['emel'] ?>" disabled>
+                    <input type="text" id="emelxx" name="emelxx" value="<?php echo $row_akaun['emel'] ?>" disabled>
                 </div>
             </div>
 
-            <div class="action-buttons mt-4 mb-3">
-                <button type="reset" class="btn btn-danger">
-                    <i class="fas fa-times me-2"></i>Reset
-                </button>
-                <button type="submit" name="aduanuser" class="btn btn-primary">
-                    <i class="fas fa-paper-plane me-2"></i>Hantar Aduan
-                </button>
+            <div class="action-buttons">
+                <button type="reset" class="btn-danger">✖ Reset</button>
+                <button type="submit" name="aduanuser" class="btn-primary">📤 Hantar Aduan</button>
             </div>
         </form>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
 </body>
 </html>

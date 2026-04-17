@@ -185,7 +185,7 @@
                     <p class="mb-0 text-white-50">Lihat maklumat lengkap mengenai aduan kerosakan aset</p>
                 </div>
                 <div>
-                    <a href="bppa.php" class="btn back-btn">
+                    <a href="welcome.php" class="btn back-btn">
                         <i class="fas fa-arrow-left me-2"></i>Kembali
                     </a>
                 </div>

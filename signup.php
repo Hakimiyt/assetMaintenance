@@ -9,18 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_submit'])) {
     $nama = $_POST['nama'];
     $emel = $_POST['emel'];
     $notel = $_POST['notel'];
-    $role = $_POST['role'];
+    // $role = $_POST['role'];
 
     // Prepared statement to prevent SQL injection
-    $sql = "INSERT INTO `tbl_daftar` (`id_pegawai`, `ic`, `password`, `nama`, `emel`, `notel`, `role`) 
+    $sql = "INSERT INTO `tbl_daftar` (`id_pegawai`, `ic`, `password`, `nama`, `emel`, `notel`) 
         VALUES (
             '$id_pegawai',
             '$ic',
             '$password',
             '$nama',
             '$emel',
-            '$notel',
-            'Pengajar'
+            '$notel'
+            -- 'Pengajar'
         )";
 
 if (mysqli_query($conn, $sql)) {  echo "
@@ -272,6 +272,7 @@ if (mysqli_query($conn, $sql)) {  echo "
             transform: translateY(0);
         }
 
+
         /* Alert styles */
         .alert {
             padding: 15px 20px;
@@ -315,7 +316,7 @@ if (mysqli_query($conn, $sql)) {  echo "
         .password-toggle {
             position: absolute;
             right: 15px;
-            top: 42px; /* Adjust based on your input height */
+            top: 48px; /* Adjust based on your input height */
             cursor: pointer;
             color: #718096;
         }
@@ -437,8 +438,8 @@ if (mysqli_query($conn, $sql)) {  echo "
 
                     <div class="form-group">
                         <label for="password">Kata Laluan <span class="required-star">*</span></label>
-                        <input type="password" id="password" name="password" placeholder="Masukkan kata laluan (Minimum 8 aksara)" required>
-                        <i class="fas fa-eye-slash password-toggle" id="togglePassword"></i>
+                        <input type="password" id="password" name="password" placeholder="Masukkan kata laluan" required>
+                        <i class="fas fa-eye-slash password-toggle position" id="togglePassword"></i>
                     </div>
 
                     <div class="form-group">
@@ -498,4 +499,4 @@ if (mysqli_query($conn, $sql)) {  echo "
         });
     </script>
 </body>
-</html>
+</html> 

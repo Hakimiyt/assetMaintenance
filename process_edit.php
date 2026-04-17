@@ -47,7 +47,7 @@ if (isset($_POST["staffedit"])) {
     if (mysqli_query($conn, $sqlUpdate)) {
         session_start();
         $_SESSION["update"] = "Pemohonan berjaya dikemas kini!";
-        header("Location: bppa.php");
+        header("Location: welcome.php?menu=semakan");
     } else {
         die("Terdapat masalah.");
     }

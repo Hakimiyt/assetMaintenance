@@ -46,13 +46,11 @@
 
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: auto;
             padding: 0 20px;
         }
 
         .navbar .container {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
         }
 
@@ -348,13 +346,13 @@
                 <img src="img/305199717_985453492342369_1200662185772088661_n.png" alt="Logo" loading="lazy">
                 <span class="fw-bold">Sistem Aduan Kerosakan Aset</span>
             </a>
-            <ul class="navbar-nav">
+            <!-- <ul class="navbar-nav">
                 <li>
                     <a class="back-button" href="index.php">
                         <i class="fas fa-arrow-left"></i> Back
                     </a>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </nav>
     
@@ -380,10 +378,10 @@
                     </div>
                 </div>
                 <button type="submit" name="loginuser" class="btn btn-primary">Log Masuk</button>
-                <div class="link-group">
+                <!-- <div class="link-group">
                     <a href="signup.php" class="create-account">Daftar Pengguna</a>
                     <a href="forg_pass.php" class="forgot-password">Lupa Kata Laluan?</a>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

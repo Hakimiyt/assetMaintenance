@@ -1,483 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sistem Aduan Kerosakan Aset</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <style>
-    :root {
-      --primary-color: #3366CC;
-      --secondary-color: #1E3A8A;
-      --accent-color: #FFB347;
-      --light-bg: #F5F9FF;
-      --dark-text: #1E293B;
-      --light-text: #FFFFFF;
-      --highlight: #FF6B6B;
-      --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <title>Login Sistem Aduan Kerosakan Asset</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background-color: var(--light-bg);
-      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: var(--dark-text);
-    }
+        :root {
+            --primary-color: #3366CC;
+            --secondary-color: #1E3A8A;
+            --accent-color: #FFB347;
+            --danger-color: #FF5A5A;
+            --light-bg: #f0f4f8;
+            --text-dark: #2d3748;
+            --text-light: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 10px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
 
-    /* Navbar Styling */
-    nav.navbar {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      padding: 15px 0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+        
+        /* Navbar styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 15px 0;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-    }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
 
-    .navbar-brand img {
-      height: 50px;
-      width: auto;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-    }
+        .navbar .container {
+            align-items: center;
+        }
 
-    .navbar-brand span {
-      color: var(--light-text);
-      font-weight: 600;
-      font-size: 25px;
-      letter-spacing: 1px;
-      margin-left: 10px;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
 
-    .social-links {
-      display: flex;
-      gap: 8px;
-    }
+        .navbar-brand img {
+            height: 50px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
 
-    .social-links .btn {
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background-color: rgba(255, 255, 255, 0.2);
-      color: var(--light-text);
-      transition: all 0.3s ease;
-    }
+        .navbar-brand span {
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-left: 15px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
 
-    .social-links .btn:hover {
-      background-color: var(--accent-color);
-      transform: translateY(-3px);
-    }
+        .navbar-nav {
+            list-style: none;
+            display: flex;
+        }
 
-    .home-btn {
-      border-radius: 30px;
-      padding: 8px 20px;
-      border: none;
-      background-color: rgba(255, 255, 255, 0.2);
-      color: var(--light-text);
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+        }
 
-    .home-btn:hover {
-      background-color: var(--accent-color);
-      color: var(--dark-text);
-      transform: translateY(-3px);
-    }
+        .back-button i {
+            margin-right: 8px;
+        }
 
-    /* Banner Styling */
-    .banner {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/banner.png') center center no-repeat;
-      background-size: cover;
-      height: 450px;
-      position: relative;
-      margin-bottom: 60px;
-      border-radius: 0 0 30px 30px;
-      box-shadow: var(--box-shadow);
-    }
+        .back-button:hover {
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            transform: translateY(-2px);
+        }
 
-    .banner-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 85%;
-      text-align: center;
-      color: var(--light-text);
-      padding: 30px;
-      border-radius: 15px;
-      background: rgba(30, 58, 138, 0.7);
-      backdrop-filter: blur(5px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            display: flex;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            flex-direction: column;
+            margin: auto;
+            margin-top: 20px;
+            /* position: absolute; */
+            /* top: 100px; */
+            /* left: 50%; */
+            transform: translate(-50%, -50%);
+        }
 
-    .banner-text h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+        .login-header {
+            width: 100%;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            text-align: center;
+        }
 
-    .highlight {
-      color: var(--accent-color);
-      font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
+        .login-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
 
-    .banner-text p {
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
+        .login-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
 
-    /* Login Section Styling */
-    .login-title {
-      margin: 40px 0 30px;
-      text-align: center;
-      font-weight: 800;
-      color: var(--secondary-color);
-      font-size: 2.5rem;
-      position: relative;
-      padding-bottom: 15px;
-    }
+        .login-form {
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .login-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      border-radius: 2px;
-    }
+        .login-form h2 {
+            margin: 0 0 25px;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
 
-    .boxes {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 60px;
-      padding: 30px 0 80px;
-    }
+        .login-form h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
 
-    .box {
-      background: white;
-      border-radius: 20px;
-      box-shadow: var(--box-shadow);
-      padding: 40px 30px;
-      text-align: center;
-      width: 300px;
-      height: 280px;
-      transition: all 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
+        .login-form form {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-    }
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+            width: 100%;
+            position: relative;
+        }
 
-    .box:hover {
-      transform: translateY(-15px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    }
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
 
-    .box img {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 25px;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-    }
+        .btn-primary {
+            background-color: var(--primary-color);
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
 
-    .box:hover img {
-      transform: scale(1.1);
-    }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
 
-    .box h3 {
-      color: var(--primary-color);
-      font-size: 22px;
-      margin-top: 15px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      transition: color 0.3s ease;
-    }
+        .link-group {
+            margin-top: 25px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+        }
+        
+        .link-group a {
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
 
-    .box:hover h3 {
-      color: var(--highlight);
-    }
+        .link-group a.create-account {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
 
-    /* Footer Styling */
-    .footer {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      padding: 25px;
-      text-align: center;
-      font-size: 16px;
-      color: var(--light-text);
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      border-radius: 30px 30px 0 0;
-      margin-top: 20px;
-    }
+        .link-group a.forgot-password {
+            color: var(--primary-color);
+        }
 
-    /* Animation for boxes */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .link-group a:hover {
+            opacity: 0.8;
+        }
 
-    .box {
-      animation: fadeInUp 0.8s ease forwards;
-    }
+        .alert-danger {
+            margin-bottom: 20px;
+            background-color: rgba(255, 90, 90, 0.1);
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+        }
 
-    .box:nth-child(2) {
-      animation-delay: 0.2s;
-    }
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
 
-    /* Media queries for responsive design */
-    @media (max-width: 991px) {
-      .navbar-brand span {
-        font-size: 10px;
-      }
-      
-      .social-links {
-        margin-top: 10px;
-      }
-      
-      .banner {
-        height: 350px;
-      }
+        input[type=text]:focus, input[type=password]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.2);
+        }
 
-      .banner-text h1 {
-        font-size: 2rem;
-      }
+        .input-icon {
+            position: relative;
+        }
 
-      .login-title {
-        font-size: 2rem;
-      }
-    }
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
 
-    @media (max-width: 767px) {
-      .navbar {
-        padding: 10px 0;
-      }
-      
-      .navbar-brand {
-        margin-bottom: 5px;
-      }
-      
-      .social-links {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin-top: 15px;
-      }
-      
-      .banner {
-        height: 300px;
-        margin-bottom: 40px;
-      }
-      
-      .banner-text h1 {
-        font-size: 1.8rem;
-      }
+        .system-name {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
 
-      .banner-text p {
-        font-size: 1rem;
-      }
-      
-      .boxes {
-        gap: 100px;
-      }
+        /* Responsive design */
+        @media (max-width: 576px) {
+            .login-container {
+                width: 90%;
+                max-width: none;
+                min-height: auto;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .login-form {
+                padding: 20px;
+            }
 
-      .login-title {
-        font-size: 1.8rem;
-      }
-    }
+            .navbar-brand span {
+                display: none;
+            }
 
-    @media (max-width: 576px) {
-      .navbar-brand img {
-        height: 40px;
-      }
+            .navbar-brand img {
+                height: 40px;
+            }
+        }
+        
+        /* Tablet view */
+        @media (min-width: 577px) and (max-width: 768px) {
+            .login-container {
+                width: 80%;
+                border-radius: 12px;
+            }
+        }
+        
+        /* Desktop view */
+        @media (min-width: 769px) {
+            .login-container {
+                width: 450px;
+                border-radius: 12px;
+            }
+        }
 
-      .navbar-brand span {
-        font-size: 14px;
-      }
-      
-      .nav-container {
-        flex-direction: column;
-      }
-      
-      .home-btn {
-        margin-bottom: 10px;
-        width: 100%;
-      }
-      
-      .social-links {
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-      }
-      
-      .social-links .btn {
-        width: 35px;
-        height: 35px;
-      }
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-      .banner {
-        height: 250px;
-        border-radius: 0 0 20px 20px;
-      }
-
-      .banner-text {
-        padding: 20px 15px;
-        width: 92%;
-      }
-      
-      .banner-text h1 {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-      }
-
-      .banner-text p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-      }
-      
-      .login-title {
-        font-size: 1.5rem;
-        margin: 20px 0;
-      }
-
-      .boxes {
-        padding: 15px 0 50px;
-        gap: 25px;
-      }
-      
-      .box {
-        width: 170px;
-        height: 200px;
-        padding: 1px;
-      }
-
-      .box img {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 10px;
-      }
-
-      .box h3 {
-        font-size: 18px;
-      }
-
-      .footer {
-        font-size: 14px;
-        padding: 20px 10px;
-        border-radius: 20px 20px 0 0;
-      }
-    }
-  </style>
+        .login-container {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="img/305199717_985453492342369_1200662185772088661_n.png" alt="Logo" />
-        <span class="fw-bold">Sistem Aduan Kerosakan Aset</span>
-      </a>
-      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <div class="ms-auto nav-container d-flex align-items-center">
-          <a class="btn home-btn me-3" href="https://www.ilpkls.gov.my">
-            <i class="fas fa-home me-1"></i> Laman Utama ILPKLS
-          </a>
-          <div class="social-links">
-            <a class="btn" href="https://www.facebook.com/ILPKUALALANGAT/"><i class="fa-brands fa-facebook-f"></i></a>
-            <a class="btn" href="https://www.youtube.com/@ILPKUALALANGAT"><i class="fa-brands fa-youtube"></i></a>
-            <a class="btn" href="https://www.tiktok.com/@ilpkualalangat_official"><i class="fab fa-tiktok"></i></a>
-          </div>
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <img src="img/305199717_985453492342369_1200662185772088661_n.png" alt="Logo" loading="lazy">
+                <span class="fw-bold">Sistem Aduan Kerosakan Aset</span>
+            </a>
+            <!-- <ul class="navbar-nav">
+                <li>
+                    <a class="back-button" href="index.php">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </li>
+            </ul> -->
         </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Banner -->
-  <div class="banner">
-    <div class="banner-text">
-      <h1>Sistem <span class="highlight">Aduan Asset Kerosakan</h1>
-      <p>Sistem ini adalah satu alternatif bagi memudahkan pelajar, pensyarah dan kakitangan ILPKLS membuat aduan kerosakan secara atas talian dengan cepat dan efisien</p>
-    </div>
-  </div>
-
-  <!-- Log Masuk Section -->
-  <div class="container">
-    <h2 class="login-title">LOG MASUK SISTEM</h2>
-    <div class="boxes">
-      <a href="signup.php" class="text-decoration-none">
-        <div class="box">
-          <img src="img/register_6851123.png" alt="Register">
-          <h3>DAFTAR PENGGUNA</h3>
+    </nav>
+    
+    <div class="login-container">
+        <div class="login-header">
+            <div class="system-name">SAKA</div>
+            <p>Sila log masuk untuk melaporkan kerosakan</p>
         </div>
-      </a>
-      <a href="login_user.php" class="text-decoration-none">
-        <div class="box">
-          <img src="img/login.png" alt="User">
-          <h3>LOG MASUK PENGUNNA</h3>
-        </div> 
-      </a>
+
+        <div class="login-form">
+            <h2>Log Masuk</h2>
+            <form action="loginsession.php" method="post">
+                <div class="form-group">
+                    <label for="ic">No Kad Pengenalan (IC):</label>
+                    <div class="input-icon">
+                        <input type="text" id="ic" name="ic" placeholder="Contoh: 880101012222" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Kata Laluan:</label>
+                    <div class="input-icon">
+                        <input type="password" id="password" name="password" placeholder="Masukkan kata laluan anda" required/>
+                    </div>
+                </div>
+                <button type="submit" name="loginuser" class="btn btn-primary">Log Masuk</button>
+                <!-- <div class="link-group">
+                    <a href="signup.php" class="create-account">Daftar Pengguna</a>
+                    <a href="forg_pass.php" class="forgot-password">Lupa Kata Laluan?</a>
+                </div> -->
+            </form>
+        </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <div>&copy; 2025 ILP Kuala Langat Selangor | Sistem Aduan Kerosakan Aset | Hak Cipta Terpelihara</div>
-  </div>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  
-  <!-- Font Import -->
-  <script>
-    // Add Poppins font
-    const fontLink = document.createElement('link');
-    fontLink.rel = 'stylesheet';
-    fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap';
-    document.head.appendChild(fontLink);
-  </script>
+    <!-- Add Poppins font -->
+    <script>
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
+        document.head.appendChild(fontLink);
+    </script>
 </body>
 </html>

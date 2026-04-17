@@ -1,25 +1,12 @@
-
 <?php 
-session_start();
-
-// Check if user is logged in, redirect if not
-if (!isset($_SESSION['ic'])) {
-    // Redirect to login page with error message
-    $_SESSION['error'] = "Sila log masuk untuk akses sistem.";
-    header("Location: index.php");
-    exit();
-}
-
 include('db.php');
 $sql = "SELECT * FROM tbl_daftar WHERE `ic`='".$_SESSION['ic']."'";
 $akaun = mysqli_query($conn, $sql);
 
-// Check if query was successful and returned results
 if ($akaun && mysqli_num_rows($akaun) > 0) {
     $row_akaun = mysqli_fetch_assoc($akaun);
     $totalRows_akaun = mysqli_num_rows($akaun);
 } else {
-    // Handle case where user exists in session but not in database
     session_destroy();
     header("Location: index.php?error=invalid_user");
     exit();
@@ -31,357 +18,227 @@ if ($akaun && mysqli_num_rows($akaun) > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Senarai Aduan Kerosakan Aset</title>
 
     <style>
         :root {
-            --primary: #3366CC;
-            --secondary: #1E3A8A;
-            --accent: #FFB347;
-            --danger: #FF5A5A;
-            --light-bg: #F5F7FA;
-            --border-color: #D1D5DB;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
-            --white: #FFFFFF;
+            --primary-color: #3366CC;
+            --secondary-color: #1E3A8A;
+            --accent-color: #FFB347;
+            --danger-color: #FF5A5A;
+            --light-bg: #f0f4f8;
+            --text-dark: #2d3748;
+            --text-light: #ffffff;
+            --divider-color: #e2e8f0;
+            --success-color: #38A169;
         }
 
         body {
-            background: var(--light-bg);
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
             color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Navbar styles */
         .navbar {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 12px 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: var(--text-light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: var(--white);
-        }
-
-        .navbar-brand h4 {
-            margin: 0 0 0 15px;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .navbar-brand img {
-            height: 50px;
-            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
-            transition: transform 0.3s ease;
-        }
-
-        .navbar-brand:hover img {
-            transform: scale(1.05);
-        }
-
-        .navbar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
-
-        .navbar ul li {
-            margin-left: 20px;
-        }
-
-        .btn-logout {
-            background-color: var(--danger);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-logout:hover {
-            background-color: #ff3333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(255, 90, 90, 0.3);
-        }
-
-        /* Main content container */
-        .main-container {
-            max-width: 1400px;
-            margin: 30px auto;
-            background-color: var(--white);
-            padding: 25px;
+        .container-dashboard {
+            width: 100%;
+            max-width: 1200px;
+            margin: 25px auto;
+            background: #fff;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            flex: 1;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
 
-        /* Page title */
         .page-title {
-            color: var(--secondary);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 28px;
-            font-weight: 700;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            color: var(--secondary-color);
+            position: relative;
+        }
+
+        .page-title:after {
+            content: "";
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .user-email {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Table styles */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            border: none;
-            padding: 12px 15px;
-            font-weight: 600;
             text-align: center;
-            position: sticky;
-            top: 0;
-        }
-
-        .table thead th:first-child {
-            border-top-left-radius: 8px;
-        }
-
-        .table thead th:last-child {
-            border-top-right-radius: 8px;
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .table tbody tr:hover {
-            background-color: rgba(51, 102, 204, 0.05);
-        }
-
-        .table tbody td {
-            background-color: transparent;
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 15px;
-            vertical-align: middle;
-        }
-
-        /* Button styles */
-        .btn-info, .btn-warning {
-            border: none;
-            padding: 6px 12px;
-            font-size: 14px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            margin: 2px;
-        }
-
-        .btn-info {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-info:hover {
-            background-color: #2855b0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(51, 102, 204, 0.3);
-        }
-
-        .btn-warning {
-            background-color: var(--accent);
-            color: var(--text-dark);
-        }
-
-        .btn-warning:hover {
-            background-color: #ffa52e;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(255, 179, 71, 0.3);
-        }
-
-        /* Status badge styles */
-        .status-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .status-pending {
-            background-color: #FEF3C7;
-            color: #92400E;
-        }
-
-        .status-approved {
-            background-color: #D1FAE5;
-            color: #065F46;
-        }
-
-        .status-rejected {
-            background-color: #FEE2E2;
-            color: #991B1B;
-        }
-
-        /* Empty state styles */
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            color: var(--text-light);
-            margin-bottom: 15px;
-        }
-
-        .empty-state p {
-            color: var(--text-light);
-            font-size: 16px;
+            color: #555;
             margin-bottom: 20px;
+            font-size: 0.95rem;
         }
 
-        /* Footer styles */
-        .footer {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 20px;
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: 0.3s;
+        }
+
+        .stat-card:hover { transform: translateY(-3px); }
+
+        .stat-card .icon {
+            background: var(--primary-color);
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .stat-title { font-size: 0.85rem; color: #666; }
+        .stat-value { font-size: 1.4rem; font-weight: 600; }
+
+        .table-container { width: 100%; }
+
+        table.dataTable {
+            width: 100% !important;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .aduanTable thead th {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            padding: 10px;
             text-align: center;
-            margin-top: auto;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Responsive styles */
-        @media (max-width: 991px) {
-            .main-container {
-                margin: 20px 15px;
-                padding: 20px;
-            }
-            
-            .page-title {
-                font-size: 24px;
-            }
+        .aduanTable tbody td {
+            padding: 10px;
+            border: 1px solid var(--divider-color);
+            text-align: left;
         }
 
-        @media (max-width: 767px) {
-            .navbar {
-                flex-direction: column;
-                padding: 10px;
-            }
-            
-            .navbar ul {
-                margin-top: 10px;
-            }
-            
-            .navbar-brand h4 {
-                font-size: 16px;
-            }
+        .aduanTable tbody tr:hover td { background: #f9f9f9; }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: inline-block;
+            text-align: center;
+        }
+        .badge-pending { background: #FFF3CD; color: #856404; }
+        .badge-approved { background: #D4EDDA; color: #155724; }
+        .badge-rejected { background: #F8D7DA; color: #721C24; }
+
+        /* Modal untuk gambar */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
         }
 
-        @media (max-width: 575px) {
-            .navbar-brand {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .navbar-brand h4 {
-                margin: 10px 0 0 0;
-            }
-            
-            .main-container {
-                padding: 15px 10px;
-            }
-            
-            .page-title {
-                font-size: 20px;
-            }
-            
-            .table thead th, 
-            .table tbody td {
-                font-size: 12px;
-                padding: 8px 5px;
-            }
-            
-            .btn-info, 
-            .btn-warning {
-                padding: 4px 8px;
-                font-size: 12px;
-                display: block;
-                width: 100%;
-                margin: 2px 0;
-            }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .modal:target {
+            display: flex;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: #fff;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <a class="navbar-brand" href="dashboard.php">
-            <img src="img/305199717_985453492342369_1200662185772088661_n.png" alt="Sistem Aduan Kerosakan Aset" />
-            <h4>SISTEM ADUAN KEROSAKAN ASET</h4>
-        </a>
-        <ul>
-            <li><a href="index.php" class="btn btn-logout"><i class="fas fa-sign-out-alt"></i> Log Keluar</a></li>
-        </ul>
+    <div class="container-dashboard">
+    <!-- Stats cards row -->
+    <div class="stats-container">
+        <?php
+        $total_query = "SELECT COUNT(*) as total FROM `tbl_semakan` WHERE role = '".$row_akaun['role']."'";
+        $total_result = mysqli_query($conn, $total_query);
+        $total_data = mysqli_fetch_assoc($total_result);
+        $total_complaints = $total_data['total'];
+        ?>
+        <div class="stat-card">
+            <div class="icon"><i class="fas fa-file-alt"></i></div>
+            <div>
+                <div class="stat-title">Jumlah Aduan</div>
+                <div class="stat-value"><?php echo $total_complaints; ?></div>
+            </div>
+        </div>
     </div>
-
     <!-- Main content -->
     <div class="main-container">
         <h2 class="page-title">
             Senarai Aduan Kerosakan Aset
             <span class="user-email"><?php echo htmlspecialchars($row_akaun['emel']); ?></span>
         </h2>
-        
-        <div class="table-container">
-            <table class="table">
+        <?php if (isset($_SESSION["update"])): ?>
+            <div style="background:#D1FAE5;color:#065F46;padding:10px;border-radius:6px;margin-bottom:15px;">
+                <?php echo $_SESSION["update"]; unset($_SESSION["update"]); ?>
+            </div>
+        <?php endif; ?>
+
+            <table id="aduanTable" class="aduanTable">
                 <thead>
                     <tr>
                         <th>Bil.</th>
                         <th>Kategori</th>
                         <th>Tarikh Kerosakan</th>
-                        <th>Nama Dan Jawatan</th>
+                        <th>Nama</th>
                         <th>Jenis Aset</th>
-                        <th>Nombor Siri Pendaftaran</th>
-                        <th>Pengguna Terakhir</th>
+                        <th>No. Siri Aset</th>
                         <th>Tempat Rosak</th>
+                        <th>Pengguna Terakhir</th>
+                        <th>Bukti</th>
                         <th>Status</th>
                         <th>Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
-                include('db.php');
-                
-                // Use prepared statement to prevent SQL injection
                 $stmt = $conn->prepare("SELECT * FROM tbl_semakan WHERE role = ?");
                 $stmt->bind_param("s", $row_akaun['role']);
                 $stmt->execute();
@@ -390,43 +247,39 @@ if ($akaun && mysqli_num_rows($akaun) > 0) {
                 if ($result->num_rows > 0) {
                     $count = 1;
                     while ($data = $result->fetch_assoc()) {
-                        // Map status text to a CSS class
                         $statusClass = '';
+                        $imgId = "imgModal".$count;
                         switch(strtolower($data['lulus_jabatan'])) {
-                            case 'lulus':
-                            case 'ya':
-                                $statusClass = 'status-approved';
-                                break;
-                            case 'tidak':
-                            case 'ditolak':
-                                $statusClass = 'status-rejected';
-                                break;
-                            default:
-                                $statusClass = 'status-pending';
-                                break;
+                            case 'lulus': case 'ya': $statusClass = 'status-approved'; break;
+                            case 'tidak': case 'ditolak': $statusClass = 'status-rejected'; break;
+                            default: $statusClass = 'status-pending'; break;
                         }
                 ?>
                 <tr>
-                    <td class="text-center"><?php echo $count++; ?></td>
+                    <td><?php echo $count++; ?></td>
                     <td><?php echo htmlspecialchars($data['role']); ?></td>
                     <td><?php echo htmlspecialchars($data['tarikh_rosak']); ?></td>
                     <td><?php echo htmlspecialchars($data['nama']); ?></td>
                     <td><?php echo htmlspecialchars($data['jenis_aset']); ?></td>
                     <td><?php echo htmlspecialchars($data['no_siri']); ?></td>
-                    <td><?php echo htmlspecialchars($data['userterakhir']); ?></td>
                     <td><?php echo htmlspecialchars($data['tempat_rosak']); ?></td>
-                    <td class="text-center">
-                        <span class="status-badge <?php echo $statusClass; ?>">
-                            <?php echo htmlspecialchars($data['lulus_jabatan']); ?>
-                        </span>
+                    <td><?php echo htmlspecialchars($data['userterakhir']); ?></td>
+                     <td>
+                        <?php if(!empty($data['image'])): ?>
+                            <a href="#<?php echo $imgId; ?>">
+                                <img src="bukti/<?php echo $data['image']; ?>" width="80" style="cursor:pointer;">
+                            </a>
+                            <div id="<?php echo $imgId; ?>" class="modal">
+                                <a href="#" class="close-btn">&times;</a>
+                                <img src="bukti/<?php echo $data['image']; ?>">
+                            </div> 
+                        <?php else: ?>
+                            Tiada bukti
+                        <?php endif; ?>
                     </td>
-                    <td class="text-center">
-                        <a href="view_staff.php?no_id=<?php echo $data['no_id'];?>" class="btn btn-info">
-                            <i class="fas fa-eye"></i> Lihat
-                        </a>
-                        <a href="edit_bppa.php?no_id=<?php echo $data['no_id'];?>" class="btn btn-warning">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
+                    <td><span class="status-badge <?php echo $statusClass; ?>"><?php echo htmlspecialchars($data['lulus_jabatan']); ?></span></td>
+                    <td>
+                        <a href="view_staff.php?no_id=<?php echo $data['no_id'];?>" style="color: #1E3A8A; text-decoration: none; background-color: #f0f4f8; padding: 5px 10px; border-radius: 4px;">Lihat</a>
                     </td>
                 </tr>
                 <?php
@@ -434,34 +287,17 @@ if ($akaun && mysqli_num_rows($akaun) > 0) {
                 } else {
                 ?>
                 <tr>
-                    <td colspan="10">
+                    <td colspan="11">
                         <div class="empty-state">
-                            <i class="fas fa-clipboard-list"></i>
+                            <i>📋</i>
                             <p>Tiada rekod aduan dijumpai buat masa ini.</p>
-                            <a href="add_complaint.php" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Tambah Aduan Baru
-                            </a>
+                            <a href="add_complaint.php" class="btn btn-info">Tambah Aduan Baru</a>
                         </div>
                     </td>
                 </tr>
-                <?php
-                }
-                $stmt->close();
-                ?>
+                <?php } $stmt->close(); ?>
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> ILP Kuala Langat Selangor | Sistem Aduan Kerosakan Aset</p>
-            <small>Dibangunkan oleh Unit Teknologi Maklumat</small>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

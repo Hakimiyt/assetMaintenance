@@ -1,506 +1,264 @@
 <?php include ('header_print.php');?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css"/>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <title>Sistem Aduan Kerosakan Aset</title>
-    <style>
-        :root {
-            --primary-color: #3366CC;
-            --primary-light: #6699FF;
-            --primary-dark: #1E3A8A;
-            --secondary-color: #EAEEFF;
-            --accent-color: #FFB347;
-            --danger-color: #FF5A5A;
-            --success-color: #4CAF50;
-            --warning-color: #FFC107;
-            --info-color: #2196F3;
-            --gray-light: #F8F9FA;
-            --gray-medium: #E9ECEF;
-            --gray-dark: #343A40;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --rounded-sm: 4px;
-            --rounded-md: 8px;
-            --rounded-lg: 16px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--gray-light);
-            color: var(--gray-dark);
-        }
+<title>Sistem Aduan Kerosakan Aset</title>
 
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-md);
-        }
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
+<!-- DataTables -->
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet">
 
-        .navbar-brand img {
-            margin-right: 15px;
-            border-radius: var(--rounded-sm);
-        }
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-        .navbar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: center;
-        }
+<style>
+:root {
+    --primary: #3366CC;
+    --dark: #1E3A8A;
+    --light: #F8F9FA;
+}
 
-        .navbar ul li {
-            margin-left: 20px;
-        }
+/* ===== GENERAL ===== */
+body {
+    background: var(--light);
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        .navbar ul li a {
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 8px 12px;
-            border-radius: var(--rounded-sm);
-        }
+/* ===== CONTAINER ===== */
+.container-card {
+    max-width: 1400px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-left: 200px; /* anjakkan ikut sidebar */ 
+    
+}
 
-        .navbar ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+/* ===== HEADER ===== */
+.page-header {
+    text-align: center;
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: 20px;
+}
 
-        .navbar ul li a.btn-danger {
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+.page-header h2 {
+    font-size: 1.5rem;
+    color: var(--dark);
+}
 
-        .navbar ul li a.btn-danger:hover {
-            background-color: #ff3333;
-            transform: translateY(-2px);
-        }
+/* ===== STATS ===== */
+.stats-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
 
-        .container-card {
-            max-width: 1400px;
-            margin: 30px auto;
-            background-color: white;
-            padding: 25px;
-            border-radius: var(--rounded-md);
-            box-shadow: var(--shadow-sm);
-        }
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    background: #fff;
+    padding: 15px;
+    border-left: 4px solid var(--primary);
+    border-radius: 6px;
+}
 
-        .page-header {
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--primary-light);
-            padding-bottom: 15px;
-        }
+.stat-card h4 {
+    font-size: 0.9rem;
+}
 
-        .page-header h2 {
-            color: var(--primary-dark);
-            margin: 0;
-            font-weight: 700;
-            font-size: 1.6rem;
-            text-align: center;
-        }
+.stat-card .number {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
 
-        .btn-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+/* ===== BUTTON ===== */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
 
-        .btn-export {
-            padding: 10px 20px;
-            font-weight: 600;
-            border: none;
-            border-radius: var(--rounded-sm);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+.btn-export {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
 
-        .btn-export:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
+.btn-word { background: #2196F3; }
+.btn-excel { background: #4CAF50; }
 
-        .btn-word {
-            background-color: var(--info-color);
-            color: white;
-        }
+/* ===== TABLE ===== */
+.table thead {
+    background: linear-gradient(135deg, var(--primary), var(--dark));
+    color: white;
+}
 
-        .btn-excel {
-            background-color: var(--success-color);
-            color: white;
-        }
+.table th, .table td {
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
 
-        .stats-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+/* ===== STATUS ===== */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
 
-        .stat-card {
-            flex: 1;
-            min-width: 200px;
-            background: white;
-            padding: 20px;
-            border-radius: var(--rounded-sm);
-            border-left: 4px solid var(--primary-color);
-            box-shadow: var(--shadow-sm);
-        }
+.status-pending { background: orange; color: #000; }
+.status-approved { background: green; color: #fff; }
+.status-rejected { background: red; color: #fff; }
 
-        .stat-card h4 {
-            margin: 0;
-            color: var(--gray-dark);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
+/* ===== MOBILE ===== */
+@media (max-width:768px) {
 
-        .stat-card .number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
+    .stats-row {
+        flex-direction: column;
+    }
 
-        .table-container {
-            border-radius: var(--rounded-sm);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
+    .action-buttons {
+        flex-direction: column;
+    }
 
-        .table {
-            width: 100%;
-            margin-bottom: 0;
-            border-collapse: collapse;
-        }
+    .btn-export {
+        width: 100%;
+    }
 
-        .table thead th {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 12px 15px;
-            font-weight: 600;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .table tbody tr:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .table tbody td {
-            background-color: transparent;
-            border: none;
-            border-bottom: 1px solid var(--gray-medium);
-            padding: 12px 15px;
-            font-size: 0.9rem;
-            vertical-align: middle;
-        }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-pending {
-            background-color: var(--warning-color);
-            color: #856404;
-        }
-
-        .status-approved {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .status-rejected {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .footer {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 25px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin-top: 25px;
-        }
-
-        .pagination li {
-            margin: 0 5px;
-        }
-
-        .pagination li a {
-            display: block;
-            padding: 8px 12px;
-            text-decoration: none;
-            background-color: white;
-            color: var(--primary-dark);
-            border-radius: var(--rounded-sm);
-            border: 1px solid var(--gray-medium);
-            transition: all 0.3s ease;
-        }
-
-        .pagination li.active a,
-        .pagination li a:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: center;
-                padding: 15px;
-            }
-            
-            .navbar ul {
-                margin-top: 15px;
-            }
-            
-            .navbar ul li {
-                margin-left: 10px;
-            }
-            
-            .container-card {
-                padding: 15px;
-                margin: 15px;
-            }
-            
-            .stats-row {
-                flex-direction: column;
-            }
-            
-            .stat-card {
-                width: 100%;
-            }
-            
-            .table-responsive-sm {
-                border-radius: var(--rounded-sm);
-                overflow-x: auto;
-            }
-        }
-    </style>
+    .table th, .table td {
+        font-size: 0.7rem;
+        padding: 6px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <a class="navbar-brand" href="#">
-            <img src="img/305199717_985453492342369_1200662185772088661_n.png" height="40" alt="Sistem Aduan Kerosakan Aset" />
-            <span>SISTEM ADUAN KEROSAKAN ASET</span>
-        </a>
-        <ul>
-            <li><a href="admin.php"><i class="fas fa-home"></i> Utama</a></li>
-            <li><a href="maklumat_user.php"><i class="fas fa-plus-circle"></i> Aduan Baru</a></li>
-        </ul>
-    </div>
+<section class="container-card">
 
-    <!-- Main content -->
-    <section class="content-section">
-        <div class="container-card">
-            <div class="page-header">
-                <h2><i class="fas fa-clipboard-list"></i> Laporan Aduan Pengguna</h2>
-            </div>
-            
-            <!-- Stats Row -->
-            <div class="stats-row">
-                <div class="stat-card">
-                    <h4>Jumlah Aduan</h4>
-                    <div class="number">
-                        <?php
-                        include('db.php');
-                        $sql_count = "SELECT COUNT(*) as total FROM tbl_semakan";
-                        $result_count = mysqli_query($conn, $sql_count);
-                        $data_count = mysqli_fetch_assoc($result_count);
-                        echo $data_count['total'];
-                        ?>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <h4>Dalam Proses</h4>
-                    <div class="number">
-                        <?php
-                        $sql_pending = "SELECT COUNT(*) as pending FROM tbl_semakan WHERE lulus_jabatan = 'Dalam Proses'";
-                        $result_pending = mysqli_query($conn, $sql_pending);
-                        $data_pending = mysqli_fetch_assoc($result_pending);
-                        echo $data_pending['pending'];
-                        ?>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <h4>Selesai</h4>
-                    <div class="number">
-                        <?php
-                        $sql_completed = "SELECT COUNT(*) as completed FROM tbl_semakan WHERE lulus_jabatan = 'Selesai'";
-                        $result_completed = mysqli_query($conn, $sql_completed);
-                        $data_completed = mysqli_fetch_assoc($result_completed);
-                        echo $data_completed['completed'];
-                        ?>
-                    </div>
-                </div>
-            </div>
+<div class="page-header">
+    <h2><i class="fas fa-clipboard-list"></i> Laporan Aduan Pengguna</h2>
+</div>
 
-            <div class="action-buttons">
-                <button onclick="exportToWord()" class="btn-export btn-word">
-                    <i class="fas fa-file-word"></i> Export Word
-                </button>
-                <button onclick="exportToExcel()" class="btn-export btn-excel">
-                    <i class="fas fa-file-excel"></i> Export Excel
-                </button>
-            </div>
+<!-- STATS -->
+<div class="stats-row">
+<?php include('db.php'); ?>
 
-            <div class="table-container">
-                <div class="table-responsive-sm">
-                    <!-- Table -->
-                    <table id="aduanTable" class="table">
-                        <thead>
-                            <tr>
-                                <th>Bil.</th>
-                                <th>Kategori</th>
-                                <th>Tarikh Kerosakan</th>
-                                <th>Nama Dan Jawatan</th>
-                                <th>Jenis Aset</th>
-                                <th>Nombor Siri</th>
-                                <th>Tempat Rosak</th>
-                                <th>Pengguna Terakhir</th>
-                                <th>Perihal Kerosakan</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        $sql = "SELECT * FROM tbl_semakan ORDER BY tarikh DESC";
-                        $result = mysqli_query($conn, $sql);
-                        if ($result->num_rows > 0) {
-                            $count = 1;
-                            while ($data = $result->fetch_assoc()) {
-                                $status_class = "";
-                                $status_text = $data['lulus_jabatan'];
-                                
-                                if ($status_text == "Dalam Proses") {
-                                    $status_class = "status-pending";
-                                } else if ($status_text == "Selesai") {
-                                    $status_class = "status-approved";
-                                } else if ($status_text == "Ditolak") {
-                                    $status_class = "status-rejected";
-                                }
-                        ?>
-                            <tr>
-                                <td><?php echo $count++; ?></td>
-                                <td><?php echo !empty($data['role']) ? htmlspecialchars($data['role']) : 'N/A'; ?></td>
-                                <td><?php echo htmlspecialchars($data['tarikh_rosak']); ?></td>
-                                <td><?php echo htmlspecialchars($data['nama']); ?></td>
-                                <td><?php echo htmlspecialchars($data['jenis_aset']); ?></td>
-                                <td><?php echo htmlspecialchars($data['no_siri']); ?></td>
-                                <td><?php echo htmlspecialchars($data['tempat_rosak']); ?></td>
-                                <td><?php echo htmlspecialchars($data['userterakhir']); ?></td>
-                                <td><?php echo htmlspecialchars($data['ulasan']); ?></td>
-                                <td><span class="status-badge <?php echo $status_class; ?>"><?php echo htmlspecialchars($data['lulus_jabatan']); ?></span></td>
-                            </tr>
-                        <?php
-                            }
-                        } else {
-                        ?>
-                            <tr>
-                                <td colspan="10" class="text-center">Tiada rekod ditemui</td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Pagination -->
-            <ul class="pagination">
-                <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
-            </ul>
-        </div>
-    </section>
+<div class="stat-card">
+<h4>Jumlah Aduan</h4>
+<div class="number">
+<?php
+$q = mysqli_query($conn,"SELECT COUNT(*) total FROM tbl_semakan");
+echo mysqli_fetch_assoc($q)['total'];
+?>
+</div>
+</div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <div class="container">
-            <p>&copy; 2025 Sistem Kerosakan Aset. Hak Cipta Terpelihara.</p>
-        </div>
-    </div>
+<div class="stat-card">
+<h4>Dalam Proses</h4>
+<div class="number">
+<?php
+$q = mysqli_query($conn,"SELECT COUNT(*) total FROM tbl_semakan WHERE lulus_jabatan='Dalam Proses'");
+echo mysqli_fetch_assoc($q)['total'];
+?>
+</div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function () {
-            $('#aduanTable').DataTable({
-                responsive: true,
-                scrollX: true,
-                pageLength: 5,
-                lengthMenu: [5, 10, 25, 50],
-                language: {
-                    search: "Carian:",
-                    lengthMenu: "Papar _MENU_ rekod",
-                    info: "Memaparkan _START_ hingga _END_ daripada _TOTAL_ rekod",
-                    infoEmpty: "Tiada rekod untuk dipaparkan",
-                    infoFiltered: "(ditapis dari _MAX_ jumlah rekod)",
-                    zeroRecords: "Tiada rekod ditemui",
-                    paginate: {
-                        first: "Pertama",
-                        last: "Terakhir",
-                        next: "Seterusnya",
-                        previous: "Sebelumnya"
-                    }
-                }
-            });
-        });
+<div class="stat-card">
+<h4>Selesai</h4>
+<div class="number">
+<?php
+$q = mysqli_query($conn,"SELECT COUNT(*) total FROM tbl_semakan WHERE lulus_jabatan='Selesai'");
+echo mysqli_fetch_assoc($q)['total'];
+?>
+</div>
+</div>
+</div>
 
-    </script>
+<!-- BUTTON -->
+<div class="action-buttons">
+<button class="btn-export btn-word">Export Word</button>
+<button class="btn-export btn-excel">Export Excel</button>
+</div>
+
+<!-- TABLE -->
+<div class="table-responsive">
+<table id="aduanTable" class="table table-striped nowrap" style="width:100%">
+
+<thead>
+<tr>
+<th>Bil</th>
+<th>Kategori</th>
+<th>Tarikh</th>
+<th>Nama</th>
+<th>Jenis Aset</th>
+<th>No Siri</th>
+<th>Tempat</th>
+<th>Pengguna</th>
+<th>Perihal</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+<?php
+$sql = mysqli_query($conn,"SELECT * FROM tbl_semakan ORDER BY tarikh_rosak DESC");
+$i=1;
+
+while($row = mysqli_fetch_assoc($sql)){
+
+$status = $row['lulus_jabatan'];
+
+$class = ($status=="Dalam Proses") ? "status-pending" :
+         (($status=="Selesai") ? "status-approved" : "status-rejected");
+?>
+<tr>
+<td><?= $i++ ?></td>
+<td><?= htmlspecialchars($row['role']) ?></td>
+<td><?= $row['tarikh_rosak'] ?></td>
+<td><?= $row['nama'] ?></td>
+<td><?= $row['jenis_aset'] ?></td>
+<td><?= $row['no_siri'] ?></td>
+<td><?= $row['tempat_rosak'] ?></td>
+<td><?= $row['userterakhir'] ?></td>
+<td><?= $row['ulasan'] ?></td>
+<td><span class="status-badge <?= $class ?>"><?= $status ?></span></td>
+</tr>
+<?php } ?>
+</tbody>
+
+</table>
+</div>
+
+</section>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $('#aduanTable').DataTable({
+        responsive: true,
+        scrollX: true,
+        autoWidth: false,
+        pageLength: 5
+    });
+});
+</script>
+
 </body>
 </html>

@@ -15,7 +15,7 @@
             --light-bg: #EEF2FF;
             --dark-text: #1E293B;
             --light-text: #FFFFFF;
-            --input-bg: #F8FAFC;
+            --input-bg: #F8FAFC;        
             --shadow: rgba(0, 0, 0, 0.05);
         }
         
